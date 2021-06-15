@@ -1,18 +1,26 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <header id="header">
+      <h1>rlanddc</h1>
+      <nav>
+        <div class = "logo">
+          <router-link to="/"><img src="../public/rlanddc_logo.png" alt="rlanddc logo"/></router-link>
+        </div>
+      </nav>
+    </header>
+    <router-view />
+
+    <div class = "footer">
+      <p><a href="https://github.com/DaniBrew4/rlanddc">Github!</a></p>
+    </div>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
 }
 </script>
 
@@ -25,4 +33,11 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+body {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 300;
+  font-size: 13pt;
+  margin: 0px 200px;
+}
+
 </style>
