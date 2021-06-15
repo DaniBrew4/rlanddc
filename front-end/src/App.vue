@@ -10,85 +10,53 @@
           </router-link>
         </div>
         <div class = header-item>
-          <router-link to="/home">
+          <router-link to="/about">
             <p>About Us</p>
           </router-link>
         </div>
         <div class = header-item>
-          <router-link to="/home">
+          <router-link to="/services">
             <p>Services</p>
           </router-link>
         </div>
         <div class = header-item>
-          <router-link to="/home">
+          <router-link to="/dyslexia">
             <p>Dyslexia</p>
           </router-link>
         </div>
         <div class = header-item>
-          <router-link to="/home">
+          <router-link to="/contact">
             <p>Contact Us</p>
           </router-link>
         </div>
         <div class = header-item>
-          <router-link to="/home">
+          <router-link to="/user">
             <p v-if="user">Logout</p>
             <p v-else>Sign Up / Login</p>
           </router-link>
         </div>
         <div class = header-item>
-          <router-link to="/home">
+          <router-link to="/donate">
             <p>DONATE NOW</p>
           </router-link>
         </div>
 
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <router-link to="/home">
-                  <p>Home</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/home">
-                  <p>About Us</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/home">
-                  <p>Services</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/home">
-                  <p>Dyslexia</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/home">
-                  <p>Contact Us</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/home">
-                  <p >DONATE NOW</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <router-link to="/home">
-                  <p v-if="user">Logout</p>
-                  <p v-else>Sign Up / Login</p>
-                </router-link>
-              </li>
-            </ul>
-          </div>
+      <div class="dropdown">
+        <button @click="myFunction()" class="dropbtn">MENU</button>
+        <div id="myDropdown" class="dropdown-content">
+          <router-link to="/home"><p>Home</p></router-link>
+          <router-link to="/about"><p>About Us</p></router-link>
+          <router-link to="/services"><p>Services</p></router-link>
+          <router-link to="/dyslexia"><p>Dyslexia</p></router-link>
+          <router-link to="/contact"><p>Contact Us</p></router-link>
+          <router-link to="/donate"><p>DONATE NOW</p></router-link>
+          <router-link to="/user">
+            <p v-if="user">Logout</p>
+            <p v-else>Sign Up / Login</p>
+          </router-link>
         </div>
-      </nav>
+      </div>
 
     </header>
     <router-view />
@@ -107,6 +75,24 @@ export default {
   computed: {
     user() {
       return this.$root.$data.user;
+    }
+  },
+  methods: {
+    myFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    },
+  },
+}
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
     }
   }
 }
@@ -136,12 +122,11 @@ body {
   font-family: 'Work Sans', sans-serif;
   font-weight: 300;
   font-size: 13pt;
-  background-color: #707070;
+  background-color: #fff;
 }
 #header{
   display: flex;
-  background-color: #fff;
-  border: 1px solid red;
+  background-color: #f1f1f1;
   width: 100%;
   height: 120px;
   flex-direction: row;
@@ -163,8 +148,7 @@ body {
 }
 .footer  {
   display: flex;
-  background-color: #fff;
-  border: 1px solid red;
+  background-color: #f1f1f1;
   width: 100%;
   flex-direction: row;
   justify-content: space-around;
@@ -186,37 +170,71 @@ body {
 .header-item a:active { /* Selected Link */
   text-decoration: none;
 }
-.nav-item a { /* Unvisited link */
-  text-decoration: none;
-}
-.nav-item a:visited { /* Visited link */
-  text-decoration: none;
-  color: inherit;
-}
-.nav-item a:hover { /* Mouse over link */
-  text-decoration: none;
-  color: burlywood;
-}
-.nav-item a:active { /* Selected Link */
-  text-decoration: none;
-}
-
-#header nav {
+#header .dropdown {
   display: none;
 }
+
 
 @media (max-width: 960px) {
   .header-item {
     display: none;
   }
+  #header .dropdown {
+    display: inline-block;
+  }
   #header{
     align-items: center;
   }
-  #header nav {
-    display: inline-block;
-    margin-left: auto!important;
-    margin-right: 0!important;
+  /* Dropdown Button */
+  .dropbtn {
+    background-color: #3498DB;
+    border-radius: 20px;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
   }
+
+  /* Dropdown button on hover & focus */
+  .dropbtn:hover, .dropbtn:focus {
+    background-color: #2980B9;
+  }
+
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0;
+  }
+
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border-bottom: solid #212121 1px;
+  }
+  .dropdown-content a:last-child {
+    border-bottom: none;
+  }
+
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #ddd}
+
+  /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+  .show {display:block;}
 
 }
 
