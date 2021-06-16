@@ -81,7 +81,6 @@ export default {
 
 <style scoped>
 .UserInfo {
-  border: solid red 1px;
   min-height:85vh;
   display: flex;
   flex-direction: row;
@@ -91,21 +90,18 @@ export default {
   background-color: #dddddd;
 }
 .headband {
-  border: solid blue 1px;
   width: 100%;
   height: 10vh;
   margin: 20px;
 }
 
 .details {
-  border: solid green 1px;
   text-align: left;
   padding: 20px;
   width: 50%;
   margin: 20px;
 }
 .controls {
-  border: solid purple 1px;
   text-align: center;
   padding: 20px;
   width: 100%;

@@ -17,11 +17,11 @@ const userSchema = new mongoose.Schema({
     password: String,
     email: {
         type: String, //(admin,teacher,student,visitor)
-        default: ""
+        default: "",
     },
     accountType: {
         type: String, //(admin,teacher,student,visitor)
-        default: "visitor"
+        default: "visitor",
     },
     photo: {
         type: mongoose.Schema.ObjectId,
@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
     created: {
         type: Date,
         default: Date.now
+    },
+    bio: {
+        type: String,
+        default: "",
     },
 });
 
@@ -103,6 +107,40 @@ const validUser = async (req, res, next) => {
         // Return an error if user does not exist.
         return res.status(403).send({
             message: "not logged in"
+        });
+    }
+
+    // if everything succeeds, move to the next middleware
+    next();
+};
+
+// middleware function to check for logged-in users
+const adminUser = async (req, res, next) => {
+    if (!req.session.userID)
+        return res.status(403).send({
+            message: "not logged in"
+        });
+    try {
+        const user = await User.findOne({
+            _id: req.session.userID
+        });
+        if (!user) {
+            return res.status(403).send({
+                message: "not logged in"
+            });
+        }
+        //Check for admin user
+        if(user.accountType !== "admin") {
+            return res.status(403).send({
+                message: "not admin user in"
+            });
+        }
+        // set the user field in the request
+        req.user = user;
+    } catch (error) {
+        // Return an error if user does not exist.
+        return res.status(403).send({
+            message: "not logged in or not an admin user"
         });
     }
 
@@ -209,6 +247,27 @@ router.get('/', validUser, async (req, res) => {
     }
 });
 
+// get all users
+router.get('/all', adminUser, async (req, res) => {
+    try {
+        //  lookup user record
+        const users = await User.find();
+        // Return an error if user does not exist.
+        if (!users) {
+            return res.status(403).send({
+                message: "no users in user list"
+            });
+        }
+        return res.send({
+            users: users
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    }
+});
+
 // logout
 router.delete("/", validUser, async (req, res) => {
     try {
@@ -243,6 +302,50 @@ router.put('/', validUser,async (req, res) => {
         user.save();
         res.sendStatus(200);
 
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    }
+});
+
+// edit a user as admin
+router.put('/admin', adminUser,async (req, res) => {
+    // Make sure that the form coming from the browser includes a firstName and a
+    // lastName and an email and an account type, otherwise return an error.
+    if (!req.body.username || !req.body.firstName || !req.body.lastName || !req.body.email || !req.body.accountType)
+        return res.sendStatus(400);
+    try {
+        //  lookup user record
+        const user = await User.findOne({
+            username: req.body.username
+        });
+        // Return an error if user does not exist.
+        if (!user)
+            return res.status(403).send({
+                message: "username not found"
+            });
+
+        user.firstName = req.body.firstName;
+        user.lastName = req.body.lastName;
+        user.email = req.body.email;
+        user.accountType = req.body.accountType;
+        user.bio = req.body.bio;
+        user.save();
+        res.sendStatus(200);
+
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    }
+});
+
+//Get user by id
+router.get("/:id", async (req, res) => {
+    try {
+        let user = await User.findOne({
+            _id: req.params.id
+        }).populate('user');
+        return res.send(user);
     } catch (error) {
         console.log(error);
         return res.sendStatus(500);
