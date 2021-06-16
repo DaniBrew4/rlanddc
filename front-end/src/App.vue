@@ -29,15 +29,20 @@
             <p>Contact Us</p>
           </router-link>
         </div>
+      <div v-if="user" class = header-item>
+        <router-link to="/user">
+          <p>Account</p>
+        </router-link>
+      </div>
         <div class = header-item>
           <router-link to="/user">
-            <p v-if="user">Logout</p>
+            <p v-if="user" @click="logout">Logout<br>{{user.username}}</p>
             <p v-else>Sign Up / Login</p>
           </router-link>
         </div>
         <div class = header-item>
           <router-link to="/donate">
-            <p>DONATE NOW</p>
+            <p class="donate">DONATE NOW</p>
           </router-link>
         </div>
 
@@ -50,9 +55,12 @@
           <router-link to="/services"><p>Services</p></router-link>
           <router-link to="/dyslexia"><p>Dyslexia</p></router-link>
           <router-link to="/contact"><p>Contact Us</p></router-link>
-          <router-link to="/donate"><p>DONATE NOW</p></router-link>
+          <router-link to="/donate"><p class="donate">DONATE NOW</p></router-link>
+          <router-link v-if="user" to="/user">
+            <p>Account</p>
+          </router-link>
           <router-link to="/user">
-            <p v-if="user">Logout</p>
+            <p v-if="user" @click="logout">Logout<br>{{user.username}}</p>
             <p v-else>Sign Up / Login</p>
           </router-link>
         </div>
@@ -62,6 +70,7 @@
     <router-view />
 
     <div class = "footer">
+      <p v-if="user && user.accountType === 'admin'"><router-link to="/admin">Admin</router-link></p>
       <p><a href="https://github.com/DaniBrew4/rlanddc">Github!</a></p>
     </div>
 
@@ -69,7 +78,7 @@
 </template>
 
 <script>
-
+import axios from 'axios';
 export default {
   name: 'App',
   computed: {
@@ -80,6 +89,14 @@ export default {
   methods: {
     myFunction() {
       document.getElementById("myDropdown").classList.toggle("show");
+    },
+    async logout() {
+      try {
+        await axios.delete("/api/users");
+        this.$root.$data.user = null;
+      } catch (error) {
+        this.$root.$data.user = null;
+      }
     },
   },
 }
@@ -113,7 +130,6 @@ window.onclick = function(event) {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  justify-content: space-between;
 }
 body {
   margin: 0;

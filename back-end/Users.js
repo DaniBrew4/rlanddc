@@ -15,6 +15,22 @@ const userSchema = new mongoose.Schema({
     lastName: String,
     username: String,
     password: String,
+    email: {
+        type: String, //(admin,teacher,student,visitor)
+        default: ""
+    },
+    accountType: {
+        type: String, //(admin,teacher,student,visitor)
+        default: "visitor"
+    },
+    photo: {
+        type: mongoose.Schema.ObjectId,
+        path: String,
+    },
+    created: {
+        type: Date,
+        default: Date.now
+    },
 });
 
 // This is a hook that will be called before a user record is saved,
@@ -126,7 +142,8 @@ router.post('/', async (req, res) => {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             username: req.body.username,
-            password: req.body.password
+            password: req.body.password,
+            created: Date.now(),
         });
         await user.save();
         // set user session info
@@ -197,6 +214,35 @@ router.delete("/", validUser, async (req, res) => {
     try {
         req.session = null;
         res.sendStatus(200);
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    }
+});
+
+// edit a user
+router.put('/', validUser,async (req, res) => {
+    // Make sure that the form coming from the browser includes a firstName and a
+    // lastName and an email, otherwise return an error.
+    if (!req.body.username || !req.body.firstName || !req.body.lastName || !req.body.email)
+        return res.sendStatus(400);
+    try {
+        //  lookup user record
+        const user = await User.findOne({
+            username: req.body.username
+        });
+        // Return an error if user does not exist.
+        if (!user)
+            return res.status(403).send({
+                message: "username not found"
+            });
+
+        user.firstName = req.body.firstName;
+        user.lastName = req.body.lastName;
+        user.email = req.body.email;
+        user.save();
+        res.sendStatus(200);
+
     } catch (error) {
         console.log(error);
         return res.sendStatus(500);
