@@ -38,7 +38,7 @@ router.post("/", validUser, upload.single('photo'), async (req, res) => {
 
     const photo = new Photo({
         user: req.user,
-        path: "/images/" + req.file.filename,
+        path: "./images/" + req.file.filename,
     });
     try {
         await photo.save();
@@ -58,6 +58,20 @@ router.get("/", validUser, async (req, res) => {
         }).sort({
             created: -1
         }).populate('user');
+        return res.send(photos);
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    }
+});
+
+// get a users photos
+router.get("/:id", async (req, res) => {
+    // return photos
+    try {
+        let photos = await Photo.findOne({
+            user: req.params.id
+        });
         return res.send(photos);
     } catch (error) {
         console.log(error);

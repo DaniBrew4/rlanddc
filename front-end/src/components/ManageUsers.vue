@@ -38,7 +38,7 @@
     <h1 id="bioTitle">Teacher Bios</h1>
     <div class="users">
       <div class="bios" v-for="bios in teachOnly" v-bind:key="bios._id">
-        <div class="teacher">
+        <div class="teacher" >
           <p>First Name: {{bios.firstName}}</p>
           <p>Last Name: {{bios.lastName}}</p>
           <p>Bio: {{bios.bio}}</p>
@@ -78,6 +78,7 @@ export default {
       let response = await axios.get('/api/users');
       this.$root.$data.user = response.data.user;
       await this.getUsers();
+      await this.getPhotos();
     } catch (error) {
       this.$root.$data.user = null;
     }
@@ -87,7 +88,7 @@ export default {
       return this.$root.$data.user;
     },
     teachOnly() {
-      return this.users.filter(bio => {
+      return this.users.filter(async bio => {
         return (bio.accountType === 'teacher' || bio.accountType === 'admin');
       })
     },
@@ -125,7 +126,25 @@ export default {
         this.users = null;
       }
     },
-  }
+    async getProfilePic(bios) {
+      try {
+        let response = await axios.get("/api/photos/" + bios._id);
+        bios.photo = response.data;
+      } catch (error) {
+        this.error = error.response.data.message;
+      }
+    },
+    async getPhotos() {
+      try {
+        for (const arrayItem of this.users) {
+          await this.getProfilePic(arrayItem);
+        }
+      }
+      catch (error) {
+        this.error = error.response.data.message;
+      }
+    },
+  },
 }
 </script>
 

@@ -7,7 +7,7 @@
       <p>Bio: {{teacher.bio}}</p>
       <div class="bioPhoto">
         <p>Profile Picture: </p>
-        <img v-if="teacher.photo" :src="teacher.photo.path" :alt="teacher.firstName">
+        <img v-if="photo" :src="photo.path" :alt="teacher.firstName">
 
         <form class="pure-form" @submit.prevent="upload">
           <fieldset>
@@ -43,11 +43,13 @@ export default {
       error: '',
       url: '',
       file: null,
+      photo: {},
     }
   },
   async created() {
     this.$root.$data.user= (await axios.get('/api/users')).data.user;
-    this.getUser();
+    await this.getUser();
+    await this.getProfilePic();
   },
   methods: {
     async getUser() {
@@ -80,6 +82,15 @@ export default {
       } catch (error) {
         this.error = "Error: " + error.response.data.message;
       }
+    },
+    async getProfilePic() {
+      try {
+        let response = await axios.get("/api/photos/" + this.teacher._id);
+        this.photo = response.data;
+      } catch (error) {
+        this.error = error.response.data.message;
+    }
+
     }
   }
 }
