@@ -44,15 +44,17 @@
           <p>Bio: {{bios.bio}}</p>
           <div class="bioPhoto">
             <p>Profile Picture: </p>
-            <img v-if="bios.photo" :src="bios.photo.path" :alt="bios.firstName">
+            <img v-if="photos.find(item => item.user === bios._id)" :src="photos.find(item => item.user=== bios._id).path" :alt="bios.firstName">
             <router-link :to="{ name: 'uploader', params: { id: bios._id }}"><button type="button">Add Photo</button></router-link>
-
           </div>
         </div>
       </div>
     </div>
 
     <h1 id="classTitle">Classes</h1>
+    <div class="classes">
+
+    </div>
 
 
 
@@ -71,6 +73,7 @@ export default {
       success: '',
       isShow: false,
       users: [],
+      photos: [],
     }
   },
   async created() {
@@ -126,22 +129,12 @@ export default {
         this.users = null;
       }
     },
-    async getProfilePic(bios) {
-      try {
-        let response = await axios.get("/api/photos/" + bios._id);
-        bios.photo = response.data;
-      } catch (error) {
-        this.error = error.response.data.message;
-      }
-    },
     async getPhotos() {
       try {
-        for (const arrayItem of this.users) {
-          await this.getProfilePic(arrayItem);
-        }
-      }
-      catch (error) {
-        this.error = error.response.data.message;
+        let response = await axios.get('/api/photos/');
+        this.photos = response.data.photos;
+      } catch (error) {
+        this.photos = null;
       }
     },
   },

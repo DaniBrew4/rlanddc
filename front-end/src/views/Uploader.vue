@@ -74,7 +74,7 @@ export default {
       try {
         const formData = new FormData();
         formData.append('photo', this.file);
-        formData.append('user', this.teacher);
+        formData.append('user', this.$route.params.id);
         await axios.post("/api/photos", formData);
         this.file = null;
         this.url = "";

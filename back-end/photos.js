@@ -37,7 +37,7 @@ router.post("/", validUser, upload.single('photo'), async (req, res) => {
         });
 
     const photo = new Photo({
-        user: req.user,
+        user: req.body.user,
         path: "./images/" + req.file.filename,
     });
     try {
@@ -49,21 +49,6 @@ router.post("/", validUser, upload.single('photo'), async (req, res) => {
     }
 });
 
-// get my photos
-router.get("/", validUser, async (req, res) => {
-    // return photos
-    try {
-        let photos = await Photo.find({
-            user: req.user
-        }).sort({
-            created: -1
-        }).populate('user');
-        return res.send(photos);
-    } catch (error) {
-        console.log(error);
-        return res.sendStatus(500);
-    }
-});
 
 // get a users photos
 router.get("/:id", async (req, res) => {
@@ -78,6 +63,28 @@ router.get("/:id", async (req, res) => {
         return res.sendStatus(500);
     }
 });
+
+// get all photos
+router.get("/", async (req, res) => {
+    // return photos
+    try {
+        let photos = await Photo.find();
+        // Return an error if user does not exist.
+        if (!photos) {
+            return res.status(403).send({
+                message: "no photos in photo list"
+            });
+        }
+        return res.send({
+            photos: photos
+        });
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    }
+});
+
+
 
 module.exports = {
     model: Photo,
