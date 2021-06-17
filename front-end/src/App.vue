@@ -66,7 +66,7 @@
     <div class = "footer">
       <p v-if="user && user.accountType === 'admin'"><router-link to="/admin">Admin</router-link></p>
       <p><a href="https://github.com/DaniBrew4/rlanddc">Github!</a></p>
-      <p>Hours Spent: 23</p>
+      <p>Hours Spent: 25</p>
     </div>
 
   </div>
@@ -125,6 +125,7 @@ window.onclick = function(event) {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  align-items: center;
 }
 body {
   margin: 0;
@@ -134,6 +135,7 @@ body {
   font-weight: 300;
   font-size: 13pt;
   background-color: #fff;
+
 }
 #header{
   display: flex;
