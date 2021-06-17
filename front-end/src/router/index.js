@@ -5,6 +5,8 @@ import User from '../views/User.vue'
 import Admin from '../views/Admin.vue'
 import Uploader from '../views/Uploader.vue'
 import About from '../views/About.vue'
+import Services from '../views/Services.vue'
+import Dyslexia from '../views/Dyslexia.vue'
 
 
 Vue.use(VueRouter)
@@ -39,6 +41,16 @@ const routes = [
         path: '/about-us',
         name: 'about',
         component: About
+    },
+    {
+        path: '/services',
+        name: 'services',
+        component: Services
+    },
+    {
+        path: '/dyslexia',
+        name: 'dyslexia',
+        component: Dyslexia
     },
 ]
 

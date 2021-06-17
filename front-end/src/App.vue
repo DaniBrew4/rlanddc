@@ -66,7 +66,7 @@
     <div class = "footer">
       <p v-if="user && user.accountType === 'admin'"><router-link to="/admin">Admin</router-link></p>
       <p><a href="https://github.com/DaniBrew4/rlanddc">Github!</a></p>
-      <p>Hours Spent: 25</p>
+      <p>Hours Spent: 27</p>
     </div>
 
   </div>
