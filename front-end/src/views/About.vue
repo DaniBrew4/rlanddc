@@ -3,7 +3,7 @@
     <div class="headband">
     </div>
 
-    
+
 
 
     <p v-if="error">{{error}}</p>

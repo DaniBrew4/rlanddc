@@ -22,10 +22,10 @@
 
         <div class="rowItem">
           <div class="gridItem">
-            <button>Learn More</button>
+            <router-link to="/services"><button>Learn More</button></router-link>
           </div>
           <div class="gridItem">
-            <button>Contact Us</button>
+            <router-link to="/contact-us"><button>Contact Us</button></router-link>
           </div>
         </div>
 
