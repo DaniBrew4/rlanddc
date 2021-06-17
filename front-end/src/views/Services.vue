@@ -18,7 +18,7 @@
             <h1>Tutoring</h1>
             <p>The Reading Lab & Dyslexia Center offers tutoring for all ages. Our lessons are tailored to each individual. During the first assessment, we’ll determine what the student already knows, any missing holes in the foundation, and use that information to map future lessons. We start with phonics and build from there, using an OG (Orton Gillingham) program, especially designed for struggling readers.</p>
             <p>Sessions are $55/hour. Scholarships may be available upon request.</p>
-            <p>To schedule a free evaluation call Lori Bassett at <a class="blue" target="_blank" href="tel:(435) 229-2853">(435) 229-2853</a></p>
+            <p>To schedule a free evaluation call Lori Bassett at <a target="_blank" href="tel:(435) 229-2853">(435) 229-2853</a></p>
           </div>
         </div>
         <hr>

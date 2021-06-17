@@ -7,7 +7,7 @@ import Uploader from '../views/Uploader.vue'
 import About from '../views/About.vue'
 import Services from '../views/Services.vue'
 import Dyslexia from '../views/Dyslexia.vue'
-
+import Contact from '../views/Contact.vue'
 
 Vue.use(VueRouter)
 
@@ -51,6 +51,11 @@ const routes = [
         path: '/dyslexia',
         name: 'dyslexia',
         component: Dyslexia
+    },
+    {
+        path: '/contact-us',
+        name: 'contact',
+        component: Contact
     },
 ]
 

@@ -25,7 +25,7 @@
           </router-link>
         </div>
         <div class = header-item>
-          <router-link to="/contact">
+          <router-link to="/contact-us">
             <p>Contact Us</p>
           </router-link>
         </div>
@@ -49,7 +49,7 @@
           <router-link to="/about-us"><p>About Us</p></router-link>
           <router-link to="/services"><p>Services</p></router-link>
           <router-link to="/dyslexia"><p>Dyslexia</p></router-link>
-          <router-link to="/contact"><p>Contact Us</p></router-link>
+          <router-link to="/contact-us"><p>Contact Us</p></router-link>
           <router-link v-if="user" to="/user">
             <p>Account</p>
           </router-link>
@@ -66,7 +66,7 @@
     <div class = "footer">
       <p v-if="user && user.accountType === 'admin'"><router-link to="/admin">Admin</router-link></p>
       <p><a href="https://github.com/DaniBrew4/rlanddc">Github!</a></p>
-      <p>Hours Spent: 27</p>
+      <p>Hours Spent: 29</p>
     </div>
 
   </div>
