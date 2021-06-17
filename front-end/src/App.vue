@@ -5,12 +5,12 @@
           <router-link to="/"><img src="../public/rlanddc_logo.png" alt="rlanddc company logo"/></router-link>
         </div>
         <div class = header-item>
-          <router-link to="/home">
+          <router-link to="/">
             <p>Home</p>
           </router-link>
         </div>
         <div class = header-item>
-          <router-link to="/about">
+          <router-link to="/about-us">
             <p>About Us</p>
           </router-link>
         </div>
@@ -40,22 +40,16 @@
             <p v-else>Sign Up / Login</p>
           </router-link>
         </div>
-        <div class = header-item>
-          <router-link to="/donate">
-            <p class="donate">DONATE NOW</p>
-          </router-link>
-        </div>
 
 
       <div class="dropdown">
         <button @click="myFunction()" class="dropbtn">MENU</button>
         <div id="myDropdown" class="dropdown-content">
-          <router-link to="/home"><p>Home</p></router-link>
-          <router-link to="/about"><p>About Us</p></router-link>
+          <router-link to="/"><p>Home</p></router-link>
+          <router-link to="/about-us"><p>About Us</p></router-link>
           <router-link to="/services"><p>Services</p></router-link>
           <router-link to="/dyslexia"><p>Dyslexia</p></router-link>
           <router-link to="/contact"><p>Contact Us</p></router-link>
-          <router-link to="/donate"><p class="donate">DONATE NOW</p></router-link>
           <router-link v-if="user" to="/user">
             <p>Account</p>
           </router-link>
@@ -72,6 +66,7 @@
     <div class = "footer">
       <p v-if="user && user.accountType === 'admin'"><router-link to="/admin">Admin</router-link></p>
       <p><a href="https://github.com/DaniBrew4/rlanddc">Github!</a></p>
+      <p>Hours Spent: 23</p>
     </div>
 
   </div>
@@ -203,18 +198,19 @@ body {
   }
   /* Dropdown Button */
   .dropbtn {
-    background-color: #3498DB;
-    border-radius: 20px;
+    background-color: orange;
+    border-radius: 10px;
     color: white;
     padding: 16px;
     font-size: 16px;
     border: none;
     cursor: pointer;
+    box-shadow: 1px 2px burlywood;
   }
 
   /* Dropdown button on hover & focus */
   .dropbtn:hover, .dropbtn:focus {
-    background-color: #2980B9;
+    background-color: darkorange;
   }
 
   /* The container <div> - needed to position the dropdown content */

@@ -73,8 +73,8 @@
         <p v-if="success" class="success">{{success}}</p>
       </div>
       <p v-if="error" class="error">{{error}}</p>
+      <br>
       <h3>All Classes</h3>
-
       <div class="groups" v-for="group in classes" v-bind:key="group._id">
         <p>Class Name: {{group.className}}</p>
         <p>Teacher: {{teachOnly.find(item => item._id === group.teacher).firstName}} {{teachOnly.find(item => item._id === group.teacher).lastName}}</p>
@@ -127,7 +127,7 @@ export default {
       return this.$root.$data.user;
     },
     teachOnly() {
-      return this.users.filter(async bio => {
+      return this.users.filter(bio => {
         return (bio.accountType === 'teacher' || bio.accountType === 'admin');
       })
     },
@@ -280,6 +280,20 @@ img {
   text-align: left;
   margin: 20px;
   padding: 20px;
+}
+button {
+  background-color: orange;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 1px 2px burlywood;
+}
+input {
+  padding: 10px;
+  border: none;
+  box-shadow: 1px 2px #888888;
+  border-radius: 5px;
 }
 
 @media (max-width: 960px) {

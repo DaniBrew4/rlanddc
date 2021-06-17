@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import User from '../views/User.vue'
 import Admin from '../views/Admin.vue'
 import Uploader from '../views/Uploader.vue'
+import About from '../views/About.vue'
 
 
 Vue.use(VueRouter)
@@ -28,6 +29,16 @@ const routes = [
         path: '/user/:id',
         name: 'uploader',
         component: Uploader
+    },
+    {
+        path: '/admin',
+        name: 'admin',
+        component: Admin
+    },
+    {
+        path: '/about-us',
+        name: 'about',
+        component: About
     },
 ]
 

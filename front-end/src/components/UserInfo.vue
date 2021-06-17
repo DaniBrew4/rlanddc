@@ -112,6 +112,20 @@ export default {
   flex-direction: column;
   text-align: left;
 }
+button {
+  background-color: orange;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 1px 2px burlywood;
+}
+input {
+  padding: 10px;
+  border: none;
+  box-shadow: 1px 2px #888888;
+  border-radius: 5px;
+}
 
 @media (max-width: 960px) {
   .UserInfo {
