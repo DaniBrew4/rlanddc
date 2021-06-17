@@ -53,7 +53,36 @@
 
     <h1 id="classTitle">Classes</h1>
     <div class="classes">
+      <div class="creator">
+        <div class="suggestions" v-if="users.length > 0">
+          <h3>Add a class</h3>
+          <div class ="fillItem">
+            <b>Class Name:</b><input placeholder="Class Name" v-model="className">
+          </div>
+          <div class ="fillItem">
+            <b>Teacher:</b>
+              <multiselect v-model="teacher" :options="teachOnly" :preserve-search="true" placeholder="Pick Teacher" label="firstName" track-by="username"></multiselect>
+          </div>
+          <div class ="fillItem">
+            <b>Students:</b>
+            <multiselect v-model="students" :options="users" :multiple="true" :close-on-select="false" :preserve-search="true" placeholder="Pick Students" label="firstName" track-by="username"></multiselect>
+          </div>
 
+        </div>
+        <button type="button" @click="createClass" id="submission">Submit</button>
+        <p v-if="success" class="success">{{success}}</p>
+      </div>
+      <p v-if="error" class="error">{{error}}</p>
+      <h3>All Classes</h3>
+
+      <div class="groups" v-for="group in classes" v-bind:key="group._id">
+        <p>Class Name: {{group.className}}</p>
+        <p>Teacher: {{teachOnly.find(item => item._id === group.teacher).firstName}} {{teachOnly.find(item => item._id === group.teacher).lastName}}</p>
+        <div class="students" v-for="student in group.students" v-bind:key="student._id">
+          <p>Student: {{student.firstName}} {{student.lastName}}</p>
+        </div>
+        <button type="button" @click="deleteClass(group)" id="delete">Delete Class</button>
+      </div>
     </div>
 
 
@@ -64,9 +93,11 @@
 <script>
 import axios from 'axios';
 import moment from 'moment';
+import Multiselect from 'vue-multiselect'
 
 export default {
   name: "ManageUsers",
+  components: { Multiselect },
   data() {
     return {
       error: '',
@@ -74,6 +105,10 @@ export default {
       isShow: false,
       users: [],
       photos: [],
+      className: '',
+      teacher: {},
+      students: [],
+      classes: [],
     }
   },
   async created() {
@@ -82,6 +117,7 @@ export default {
       this.$root.$data.user = response.data.user;
       await this.getUsers();
       await this.getPhotos();
+      this.getClasses();
     } catch (error) {
       this.$root.$data.user = null;
     }
@@ -137,10 +173,47 @@ export default {
         this.photos = null;
       }
     },
+    async getClasses() {
+      try {
+        let response = await axios.get('/api/classes/all');
+        this.classes = response.data.classes;
+      } catch (error) {
+        this.photos = null;
+      }
+    },
+    async createClass() {
+      this.error = '';
+      if (!this.className || !this.teacher || !this.students)
+        return;
+      try {
+        await axios.post('/api/classes', {
+          className: this.className,
+          teacher: this.teacher,
+          students: this.students,
+        });
+        this.className= '';
+        this.teacher= {};
+        this.students= [];
+        await this.getClasses();
+      } catch (error) {
+        this.error = error.response.data.message;
+      }
+    },
+    async deleteClass(group) {
+      try {
+        await axios.delete("/api/classes/" + group._id);
+        this.getClasses();
+        return true;
+      } catch (error) {
+        console.log(error);
+      }
+
+    }
   },
 }
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
 .UserInfo {
   min-height:85vh;
@@ -190,6 +263,24 @@ export default {
 img {
   width: 100%;
 }
+.classes {
+  width: 100%;
+}
+.suggestions {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.fillItem {
+  margin: 20px;
+}
+.groups {
+  width: 30%;
+  border: solid #2c3e50 5px;
+  text-align: left;
+  margin: 20px;
+  padding: 20px;
+}
 
 @media (max-width: 960px) {
   .UserInfo {
@@ -200,6 +291,9 @@ img {
     width: 100%;
   }
   .account, .bios {
+    width: 100%;
+  }
+  .groups {
     width: 100%;
   }
 }
